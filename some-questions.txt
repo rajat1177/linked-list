@@ -1,0 +1,97 @@
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int carry=0;
+        ListNode* t1=l1;
+        ListNode* t2=l2;
+        ListNode* dummy=new ListNode(-1);
+        ListNode* curr=dummy;
+        int sum=0;
+        while(t1||t2){
+            sum=carry;
+            if(t1){sum+=t1->val;}
+            if(t2){sum+=t2->val;}
+            ListNode* newnode=new ListNode(sum%10);
+            carry=sum/10;
+            curr->next=newnode;
+            curr = curr->next;
+            if(t1)t1=t1->next;
+            if(t2)t2=t2->next;
+        }
+        if(carry){
+            ListNode* newnode=new ListNode(1);
+            curr->next=newnode;
+        }
+        return dummy->next;
+    }
+};
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head==nullptr||head->next==nullptr){
+            return head;
+        }
+        ListNode* odd=head;
+        ListNode* even=head->next;
+        ListNode* headeven=head->next;
+        while(even&&even->next){
+            odd->next=odd->next->next;
+            even->next=even->next->next;
+            odd=odd->next;
+            even=even->next;
+        }
+        odd->next=headeven;
+        return head;
+    }
+};
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head==nullptr||head->next==nullptr){
+            return head;
+        }
+        vector<int>v;
+        ListNode* temp=head;
+        while(temp && temp->next){
+            v.push_back(temp->val);
+            temp=temp->next->next;
+        }
+        if(temp) v.push_back(temp->val);
+        temp=head->next;
+        while(temp && temp->next){
+            v.push_back(temp->val);
+            temp=temp->next->next;
+        }
+        if(temp) v.push_back(temp->val);
+        temp=head;
+        int i=0;
+        while(temp){
+            temp->val=v[i];
+            i++;
+            temp=temp->next;
+        }
+        return head;
+    }
+};
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* fast=head;
+        ListNode* slow=head;
+        for(int i=0;i<n;i++) {
+            fast=fast->next;
+        }
+        if(fast==nullptr){
+            ListNode* newhead=head->next;
+            return newhead;
+        }
+        while(fast->next){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        ListNode* dlt=slow->next;
+        slow->next=slow->next->next;
+        delete dlt;
+        return head;
+    }
+};
